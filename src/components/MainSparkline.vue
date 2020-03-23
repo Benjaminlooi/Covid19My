@@ -63,8 +63,8 @@ export default {
         }
       }
     }
-    console.log(this.malaysiaDataHeader);
-    console.log(this.malaysiaDataValue);
+    // console.log(this.malaysiaDataHeader);
+    // console.log(this.malaysiaDataValue);
   }
 };
 </script>
