@@ -49,17 +49,18 @@ export default {
   },
 
   async getCovidMyCaseObFirestore() {
-    const ObFirestoreRef = db.collection('outbreakmy').doc('cases-data');
-    const data = await ObFirestoreRef.get()
+    const ObFirestoreRef = db.collection("outbreakmy")
+      .orderBy("updatedTime", "desc").limit(1)
+    const querySnapshot = await ObFirestoreRef.get()
 
-    if (data.exists) {
-      let updatedTime = data.data().updatedTime.toDate();
-      let docData = data.data();
+    let docData = {},
+      updatedTime;
+
+    querySnapshot.forEach(doc => {
+      updatedTime = doc.data().updatedTime.toDate();
+      docData = doc.data();
       docData.updatedTime = updatedTime;
-      return docData;
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
+    })
+    return docData;
   }
 };
