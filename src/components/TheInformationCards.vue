@@ -1,31 +1,12 @@
 <template>
-  <v-row>
-    <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-      <v-card>
-        <v-img
-          :src="card.src"
-          class="white--text align-end"
-          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-          height="200px"
-        >
-          <v-card-title v-text="card.title"></v-card-title>
-        </v-img>
+  <v-row dense class="mt-5">
+    <v-col v-for="card in cards" :key="card.title" cols="6">
+      <v-card :color="card.color" dark>
+        <v-card-title class="title">{{card.title}}</v-card-title>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn icon>
-            <v-icon>mdi-heart</v-icon>
-          </v-btn>
-
-          <v-btn icon>
-            <v-icon>mdi-bookmark</v-icon>
-          </v-btn>
-
-          <v-btn icon>
-            <v-icon>mdi-share-variant</v-icon>
-          </v-btn>
-        </v-card-actions>
+        <v-card-subtitle class="display-1">{{card.data}}</v-card-subtitle>
+        <v-divider class="mx-4"></v-divider>
+        <v-card-subtitle class="subtitle-2">{{card.dataChanges}}</v-card-subtitle>
       </v-card>
     </v-col>
   </v-row>
@@ -33,25 +14,40 @@
 
 <script>
 export default {
+  props: ["covidMyCases"],
   data: () => ({
-    cards: [
-      {
-        title: "Pre-fab homes",
-        src: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        flex: 12
-      },
-      {
-        title: "Favorite road trips",
-        src: "https://cdn.vuetifyjs.com/images/cards/road.jpg",
-        flex: 6
-      },
-      {
-        title: "Best airlines",
-        src: "https://cdn.vuetifyjs.com/images/cards/plane.jpg",
-        flex: 6
-      }
-    ]
-  })
+    //
+  }),
+  computed: {
+    cards: function() {
+      return [
+        {
+          title: "Confirmed",
+          data: this.covidMyCases.dataConfirmed,
+          dataChanges: this.covidMyCases.dataConfirmedChanges,
+          color: "#FDB058"
+        },
+        {
+          title: "Recovered",
+          data: this.covidMyCases.dataRecovered,
+          dataChanges: this.covidMyCases.dataRecoveredChanges,
+          color: "#4AD579"
+        },
+        {
+          title: "Deaths",
+          data: this.covidMyCases.dataDeaths,
+          dataChanges: this.covidMyCases.dataDeathsChanges,
+          color: "#FD5858"
+        },
+        {
+          title: "In Treatment",
+          data: this.covidMyCases.dataInTreatment,
+          dataChanges: this.covidMyCases.dataInTreatmentChanges,
+          color: "#83afdc"
+        }
+      ];
+    }
+  }
 };
 </script>
 

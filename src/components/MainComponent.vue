@@ -5,37 +5,39 @@
         <h1 class="display-2 font-weight-bold mb-3">Covid-19 in Malaysia</h1>
 
         <p v-if="covidMyCases" class="subheading font-weight-regular">
-          <span class="display-1">{{covidMyCases.dataConfirmed}}</span> Confirmed cases in Malaysia as of Mar 16, 2020 5:30 PM
+          <span class="display-1">{{covidMyCases.dataConfirmed}}</span> Confirmed cases in Malaysia as of {{dateToday}}
         </p>
       </v-col>
     </v-row>
-    <v-row>
+    <!-- <v-row>
       <v-col class="mb-5" cols="12">
         <TheSparkline />
       </v-col>
-    </v-row>
-    <TheInformationCards />
+    </v-row> -->
+    <TheInformationCards  :covidMyCases="covidMyCases" />
   </v-container>
 </template>
 
 <script>
-import TheSparkline from "./TheSparkline";
+// import TheSparkline from "./TheSparkline";
 import TheInformationCards from "./TheInformationCards";
 import API from "../API";
+import moment from "moment";
 
 export default {
   components: {
-    TheSparkline,
+    // TheSparkline,
     TheInformationCards
   },
   data: () => ({
-    covidMyCases: null
+    covidMyCases: {},
+    dateToday: ''
   }),
   async created() {
-    this.covidMyCases = await API.getCovidMyCases();
+    this.covidMyCases = await API.getCovidMyCasesOb();
+    console.log("created -> covidMyCases", this.covidMyCases)
 
-    let dateToday = new Date();
-    console.log("created -> dateToday", dateToday);
+    this.dateToday = moment().format("MMM D, YYYY h:mm a")
   }
 };
 </script>
@@ -45,6 +47,7 @@ export default {
   position: relative;
   margin-top: -68px;
   padding-top: 52px;
+  overflow: hidden;
 
   &::before {
     content: "";

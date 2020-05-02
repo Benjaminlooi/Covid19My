@@ -10,7 +10,7 @@ import axios from 'axios';
 //     return data;
 //   }
 // };
-const apiUrl = 'https://us-central1-covid-19-my-api-firebase.cloudfunctions.net/getCovid19MyCases'
+
 
 export default {
   async getDataCsv() {
@@ -18,7 +18,14 @@ export default {
     return data;
   },
 
-  async getCovidMyCases() {
+  async getCovidMyCasesMk() {
+    const apiUrl = 'https://us-central1-covid-19-my-api-firebase.cloudfunctions.net/getCovid19MyCases/mk'
+    const { data } = await axios.get(apiUrl);
+    return data;
+  },
+
+  async getCovidMyCasesOb() {
+    const apiUrl = 'https://us-central1-covid-19-my-api-firebase.cloudfunctions.net/getCovid19MyCases/ob'
     const { data } = await axios.get(apiUrl);
     return data;
   }
