@@ -4,9 +4,9 @@
       <v-card :color="card.color" dark>
         <v-card-title class="title">{{card.title}}</v-card-title>
 
-        <v-card-subtitle class="display-1">{{card.data}}</v-card-subtitle>
+        <v-card-subtitle class="display-1 white--text">{{card.data}}</v-card-subtitle>
         <v-divider class="mx-4"></v-divider>
-        <v-card-subtitle class="subtitle-2">{{card.dataChanges}}</v-card-subtitle>
+        <v-card-subtitle class="subtitle-2 white--text">{{card.dataChanges}}</v-card-subtitle>
       </v-card>
     </v-col>
   </v-row>
@@ -51,5 +51,5 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 </style>
