@@ -5,7 +5,7 @@
         <v-card-title class="subtitle-1 font-weight-bold">{{card.title}}</v-card-title>
 
         <v-card-subtitle class="display-1 white--text">{{card.data}}</v-card-subtitle>
-        <v-divider class="mx-4"></v-divider>
+        <v-divider class="mx-4" style="border-color: rgba(255, 255, 255, 0.4)"></v-divider>
         <v-card-subtitle class="subtitle-2 white--text">{{card.dataChanges}}</v-card-subtitle>
       </v-card>
     </v-col>
