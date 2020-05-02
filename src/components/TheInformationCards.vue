@@ -2,7 +2,7 @@
   <v-row dense class="mt-5">
     <v-col v-for="card in cards" :key="card.title" cols="6">
       <v-card :color="card.color" dark>
-        <v-card-title class="title">{{card.title}}</v-card-title>
+        <v-card-title class="subtitle-1 font-weight-bold">{{card.title}}</v-card-title>
 
         <v-card-subtitle class="display-1 white--text">{{card.data}}</v-card-subtitle>
         <v-divider class="mx-4"></v-divider>
