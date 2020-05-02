@@ -5,7 +5,8 @@
         <h1 class="display-2 font-weight-bold mb-3">Covid-19 in Malaysia</h1>
 
         <p v-if="covidMyCases" class="subheading font-weight-regular">
-          <span class="display-1">{{covidMyCases.dataConfirmed}}</span> Confirmed cases in Malaysia as of {{dateToday}}
+          <span class="display-1">{{covidMyCases.dataConfirmed}}</span>
+          Confirmed cases in Malaysia as of {{updatedTime}}
         </p>
       </v-col>
     </v-row>
@@ -13,8 +14,8 @@
       <v-col class="mb-5" cols="12">
         <TheSparkline />
       </v-col>
-    </v-row> -->
-    <TheInformationCards  :covidMyCases="covidMyCases" />
+    </v-row>-->
+    <TheInformationCards :covidMyCases="covidMyCases" />
   </v-container>
 </template>
 
@@ -30,14 +31,22 @@ export default {
     TheInformationCards
   },
   data: () => ({
-    covidMyCases: {},
-    dateToday: ''
+    covidMyCases: {}
   }),
+  computed: {
+    updatedTime: function() {
+      if (this.covidMyCases.updatedTime) {
+        const time = moment(this.covidMyCases.updatedTime).format(
+          "MMM D, YYYY h:mm a"
+        );
+        return time;
+      }
+      return ""
+    }
+  },
   async created() {
-    this.covidMyCases = await API.getCovidMyCasesOb();
-    console.log("created -> covidMyCases", this.covidMyCases)
-
-    this.dateToday = moment().format("MMM D, YYYY h:mm a")
+    this.covidMyCases = await API.getCovidMyCaseObFirestore();
+    // console.log("created -> covidMyCases", this.covidMyCases);
   }
 };
 </script>
