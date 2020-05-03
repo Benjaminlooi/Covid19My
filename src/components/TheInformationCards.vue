@@ -1,5 +1,5 @@
 <template>
-  <v-row dense class="">
+  <v-row dense>
     <v-col v-for="card in cards" :key="card.title" cols="6">
       <v-card :color="card.color" dark>
         <v-card-title class="subtitle-1 font-weight-bold">{{card.title}}</v-card-title>
