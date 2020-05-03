@@ -4,19 +4,22 @@
     <v-content>
       <MainComponent />
     </v-content>
+    <TheFooter class="mt-2" />
   </v-app>
 </template>
 
 <script>
 import MainComponent from "./components/MainComponent";
 import TheAppBar from "./components/TheAppBar";
+import TheFooter from "./components/TheFooter";
 
 export default {
   name: "App",
 
   components: {
     MainComponent,
-    TheAppBar
+    TheAppBar,
+    TheFooter
   },
 
   data: () => ({
