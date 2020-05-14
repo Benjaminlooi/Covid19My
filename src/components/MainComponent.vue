@@ -74,4 +74,8 @@ export default {
     transform: scaleX(2);
   }
 }
+
+#main-component{
+  max-width: 400px;
+}
 </style>
