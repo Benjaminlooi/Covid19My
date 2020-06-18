@@ -16,15 +16,17 @@ const firebase = require("firebase");
 require("firebase/firestore");
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: "AIzaSyAwwPzOTAgEiLIw01183OReG91A2LUopRY",
-  authDomain: "covid-19-my-api-firebase.firebaseapp.com",
-  databaseURL: "https://covid-19-my-api-firebase.firebaseio.com",
-  projectId: "covid-19-my-api-firebase",
-  storageBucket: "covid-19-my-api-firebase.appspot.com",
-  messagingSenderId: "741882795537",
-  appId: "1:741882795537:web:9663352caf5abee279c3b0"
+const firebaseConfig = {
+  apiKey: "AIzaSyBh9fPWlAkULKtVKxngMVVGQNEkYOCPauw",
+  authDomain: "bensanitymain.firebaseapp.com",
+  databaseURL: "https://bensanitymain.firebaseio.com",
+  projectId: "bensanitymain",
+  storageBucket: "bensanitymain.appspot.com",
+  messagingSenderId: "434449604991",
+  appId: "1:434449604991:web:06f04d19a1489eaf2afa4a",
+  measurementId: "G-02SHCFE8D9"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
