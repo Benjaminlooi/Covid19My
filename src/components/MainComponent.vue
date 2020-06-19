@@ -49,6 +49,7 @@ export default {
   async created() {
     this.covidMyCases = await API.getCovidMyCaseObFirestore();
     // console.log("created -> covidMyCases", this.covidMyCases);
+    console.log(navigator);
   }
 };
 </script>
