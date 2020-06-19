@@ -46,8 +46,19 @@ export default {
       return "";
     }
   },
+  methods: {
+    saveCovidMyCasesToCache() {
+      localStorage.setItem("covidMyCases", JSON.stringify(this.covidMyCases));
+    }
+  },
   async created() {
-    this.covidMyCases = await API.getCovidMyCaseObFirestore();
+    if (navigator.onLine) {
+      this.covidMyCases = await API.getCovidMyCaseObFirestore();
+      this.saveCovidMyCasesToCache();
+    } else {
+      return JSON.parse(localStorage.getItem("covidMyCases"));
+    }
+
     // console.log("created -> covidMyCases", this.covidMyCases);
     console.log(navigator);
   }
@@ -60,5 +71,4 @@ export default {
   padding-top: 56px;
   padding-bottom: 50px;
 }
-
 </style>
