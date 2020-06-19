@@ -13,9 +13,17 @@
       </v-row>
     </v-container>
 
-    <v-card class="rounded-t-xl" flat style="top:-40px;">
+    <v-card class="rounded-t-xl" flat style="margin-top:-40px;">
       <v-container id="main-component">
         <TheInformationCards :covidMyCases="covidMyCases" />
+
+        <v-row class="justify-center">
+          <v-col sm="6">
+            <v-card class="rounded-xl mapImage">
+              <v-img :src="covidMyCases.malaysiaMapSrc"></v-img>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-container>
     </v-card>
   </div>
@@ -58,6 +66,7 @@ export default {
 
     if (navigator.onLine) {
       this.covidMyCases = await API.getCovidMyCaseObFirestore();
+      console.log("created -> covidMyCases", this.covidMyCases);
       this.saveCovidMyCasesToCache();
     } else {
       this.covidMyCases = JSON.parse(localStorage.getItem("covidMyCases"));
@@ -71,5 +80,15 @@ export default {
   margin-top: -56px;
   padding-top: 56px;
   padding-bottom: 50px;
+}
+
+#main-component {
+  // max-width: 400px;
+}
+
+.mapImage {
+  -webkit-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.30) !important;
+  -moz-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.30) !important;
+  box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.30) !important;
 }
 </style>
