@@ -5,6 +5,14 @@
       <MainComponent />
     </v-main>
     <TheFooter class="mt-2" />
+    <v-btn @click="isOffline = true">c</v-btn>
+    <v-snackbar v-model="isOffline" color="error" timeout="5000" vertical multi-line>
+      You are not connecting to an internet connection.<br>
+      The latest updates will be available once an internet connection is detected.
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="isOffline = false">Close</v-btn>
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -15,16 +23,21 @@ import TheFooter from "./components/TheFooter";
 
 export default {
   name: "App",
-
   components: {
     MainComponent,
     TheAppBar,
     TheFooter
   },
-
   data: () => ({
-    //
-  })
+    isOffline: null
+  }),
+  created() {
+    if (navigator.onLine) {
+      this.isOffline = false;
+    } else {
+      this.isOffline = true;
+    }
+  }
 };
 </script>
 
