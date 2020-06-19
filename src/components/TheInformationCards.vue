@@ -1,7 +1,7 @@
 <template>
-  <v-row dense>
-    <v-col v-for="card in cards" :key="card.title" cols="6">
-      <v-card :color="card.color" dark>
+  <v-row class="pa-2">
+    <v-col v-for="card in cards" :key="card.title" cols="6" class="pa-2">
+      <v-card :color="card.color" :style="card.style" class="rounded-xl" dark>
         <v-card-title class="subtitle-1 font-weight-bold">{{card.title}}</v-card-title>
 
         <v-card-subtitle class="display-1 white--text">{{card.data}}</v-card-subtitle>
@@ -25,25 +25,37 @@ export default {
           title: "Confirmed",
           data: this.covidMyCases.dataConfirmed,
           dataChanges: this.covidMyCases.dataConfirmedChanges,
-          color: "#FDB058"
+          color: "#FDB058",
+          style: `-webkit-box-shadow: 0px 5px 20px -2px rgba(253,176,88,0.65);
+-moz-box-shadow: 0px 5px 20px -2px rgba(253,176,88,0.65);
+box-shadow: 0px 5px 20px -2px rgba(253,176,88,0.65);`
         },
         {
           title: "Recovered",
           data: this.covidMyCases.dataRecovered,
           dataChanges: this.covidMyCases.dataRecoveredChanges,
-          color: "#4AD579"
+          color: "#4AD579",
+          style: `-webkit-box-shadow: 0px 5px 20px -2px rgba(74,213,121,0.65);
+-moz-box-shadow: 0px 5px 20px -2px rgba(74,213,121,0.65);
+box-shadow: 0px 5px 20px -2px rgba(74,213,121,0.65);`
         },
         {
           title: "Deaths",
           data: this.covidMyCases.dataDeaths,
           dataChanges: this.covidMyCases.dataDeathsChanges,
-          color: "#FD5858"
+          color: "#FD5858",
+          style: `-webkit-box-shadow: 0px 6px 23px -1px rgba(253,88,88,0.65);
+-moz-box-shadow: 0px 6px 23px -1px rgba(253,88,88,0.65);
+box-shadow: 0px 6px 23px -1px rgba(253,88,88,0.65);`
         },
         {
           title: "In Treatment",
           data: this.covidMyCases.dataInTreatment,
           dataChanges: this.covidMyCases.dataInTreatmentChanges,
-          color: "#83afdc"
+          color: "#83afdc",
+          style: `-webkit-box-shadow: 0px 6px 23px -1px rgba(131,175,220,0.65);
+-moz-box-shadow: 0px 6px 23px -1px rgba(131,175,220,0.65);
+box-shadow: 0px 6px 23px -1px rgba(131,175,220,0.65);`
         }
       ];
     }
