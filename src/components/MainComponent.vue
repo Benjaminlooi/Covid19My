@@ -2,24 +2,22 @@
   <div>
     <v-container fluid class="top-section purple-gradient-bg">
       <v-row class="white--text">
-        <v-col class="mb-4 text-center" style="z-index: 1">
+        <v-col class="text-center" style="z-index: 1">
           <h1 class="display-2 font-weight-bold mb-3">Covid-19 in Malaysia</h1>
-
-          <p v-if="covidMyCases" class="subheading font-weight-regular mb-5">
-            <span class="display-1">{{covidMyCases.dataConfirmed}}</span>
-            Confirmed cases in Malaysia as of {{updatedTime}}
-          </p>
         </v-col>
       </v-row>
     </v-container>
 
-    <v-card class="rounded-t-xl" flat style="margin-top:-40px;">
+    <v-card class="rounded-t-xl" flat style="margin-top:-24px;">
       <v-container id="main-component">
+        <h3 class="px-1">Transmission Update</h3>
+        <p class="px-1 caption mb-0">Last update: {{updatedTime}}</p>
         <TheInformationCards :covidMyCases="covidMyCases" />
 
-        <v-row class="justify-center">
+        <v-row class="justify-center mt-4">
           <v-col sm="6">
-            <v-card class="rounded-xl mapImage">
+            <h3 class="px-1 mb-4">States Infection Rate</h3>
+            <v-card class="rounded-xl mapImage mx-1">
               <v-img :src="covidMyCases.malaysiaMapSrc"></v-img>
             </v-card>
           </v-col>
@@ -66,7 +64,6 @@ export default {
 
     if (navigator.onLine) {
       this.covidMyCases = await API.getCovidMyCaseObFirestore();
-      console.log("created -> covidMyCases", this.covidMyCases);
       this.saveCovidMyCasesToCache();
     } else {
       this.covidMyCases = JSON.parse(localStorage.getItem("covidMyCases"));
@@ -87,8 +84,8 @@ export default {
 }
 
 .mapImage {
-  -webkit-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.30) !important;
-  -moz-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.30) !important;
-  box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.30) !important;
+  -webkit-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.3) !important;
+  -moz-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.3) !important;
 }
 </style>
