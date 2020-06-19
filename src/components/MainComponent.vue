@@ -57,7 +57,8 @@ export default {
 <style lang="scss" scoped>
 .top-section {
   margin-top: -56px;
-  padding-top: 52px;
+  padding-top: 56px;
   padding-bottom: 50px;
 }
+
 </style>

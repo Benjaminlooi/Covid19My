@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="transparent" elevation="0" hide-on-scroll dark>
+  <v-app-bar app color="transparent" flat hide-on-scroll height="56" dark>
     <div class="d-flex align-center">
       Covid-19
       <sup>MY</sup>
