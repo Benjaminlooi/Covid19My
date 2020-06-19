@@ -52,15 +52,16 @@ export default {
     }
   },
   async created() {
+    if (localStorage.getItem("infiniteScrollEnabled") !== null) {
+      this.covidMyCases = JSON.parse(localStorage.getItem("covidMyCases"));
+    }
+
     if (navigator.onLine) {
       this.covidMyCases = await API.getCovidMyCaseObFirestore();
       this.saveCovidMyCasesToCache();
     } else {
-      return JSON.parse(localStorage.getItem("covidMyCases"));
+      this.covidMyCases = JSON.parse(localStorage.getItem("covidMyCases"));
     }
-
-    // console.log("created -> covidMyCases", this.covidMyCases);
-    console.log(navigator);
   }
 };
 </script>
