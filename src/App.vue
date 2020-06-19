@@ -5,8 +5,7 @@
       <MainComponent />
     </v-main>
     <TheFooter class="mt-2" />
-    <v-btn @click="isOffline = true">c</v-btn>
-    <v-snackbar v-model="isOffline" color="error" timeout="5000" vertical multi-line>
+    <v-snackbar v-model="isOffline" color="error" timeout="-1" vertical multi-line>
       You are not connecting to an internet connection.<br>
       The latest updates will be available once an internet connection is detected.
       <template v-slot:action="{ attrs }">
