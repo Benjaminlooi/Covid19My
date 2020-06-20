@@ -2,11 +2,11 @@
   <v-row class="pa-2">
     <v-col v-for="card in cards" :key="card.title" cols="6" sm="3" class="pa-2">
       <v-card :color="card.color" :style="card.style" class="rounded-xl" dark>
-        <v-card-title class="subtitle-1 font-weight-bold">{{card.title}}</v-card-title>
+        <v-card-title class="subtitle-2 font-weight-bold">{{card.title}}</v-card-title>
 
-        <v-card-subtitle class="display-1 white--text">{{card.data}}</v-card-subtitle>
+        <v-card-subtitle class="display-1 white--text pb-2">{{card.data}}</v-card-subtitle>
         <v-divider class="mx-4" style="border-color: rgba(255, 255, 255, 0.4)"></v-divider>
-        <v-card-subtitle class="subtitle-2 white--text">{{card.dataChanges}}</v-card-subtitle>
+        <v-card-subtitle class="body-2 white--text py-2">{{card.dataChanges}}</v-card-subtitle>
       </v-card>
     </v-col>
   </v-row>
