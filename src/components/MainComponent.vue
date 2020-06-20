@@ -10,9 +10,11 @@
 
     <v-card class="rounded-t-xl" flat style="margin-top:-24px;">
       <v-container id="main-component">
+        <TheSafetyTipBanner class="mt-2 mb-5" />
         <h3 class="px-1">Transmission Update</h3>
         <p class="px-1 caption mb-0">Last update: {{updatedTime}}</p>
         <TheInformationCards :covidMyCases="covidMyCases" />
+
 
         <v-row class="justify-center mt-4">
           <v-col sm="6">
@@ -30,12 +32,13 @@
 <script>
 // import TheSparkline from "./TheSparkline";
 import TheInformationCards from "./TheInformationCards";
+import TheSafetyTipBanner from "./TheSafetyTipBanner";
 import API from "../API";
 import moment from "moment";
 
 export default {
   components: {
-    // TheSparkline,
+    TheSafetyTipBanner,
     TheInformationCards
   },
   data: () => ({
