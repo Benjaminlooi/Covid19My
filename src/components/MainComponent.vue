@@ -58,7 +58,7 @@ export default {
     }
   },
   async created() {
-    if (localStorage.getItem("infiniteScrollEnabled") !== null) {
+    if (localStorage.getItem("covidMyCases") !== null) {
       this.covidMyCases = JSON.parse(localStorage.getItem("covidMyCases"));
     }
 
