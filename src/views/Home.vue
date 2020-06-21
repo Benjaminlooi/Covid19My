@@ -31,8 +31,8 @@
 
 <script>
 // import TheSparkline from "./TheSparkline";
-import TheInformationCards from "./TheInformationCards";
-import TheSafetyTipBanner from "./TheSafetyTipBanner";
+import TheInformationCards from "../components/TheInformationCards";
+import TheSafetyTipBanner from "../components/TheSafetyTipBanner";
 import API from "../API";
 import moment from "moment";
 

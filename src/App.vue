@@ -2,13 +2,15 @@
   <v-app>
     <TheAppBar />
     <v-main>
-      <MainComponent />
+      <router-view />
     </v-main>
     <TheFooter class="mt-2" />
     <v-snackbar v-model="isOffline" color="error" timeout="-1" vertical multi-line>
-      You are not connecting to an internet connection.<br>
-      The latest updates will be available once an internet connection is detected.
-      <template v-slot:action="{ attrs }">
+      You are not connecting to an internet connection.
+      <br />The latest updates will be available once an internet connection is detected.
+      <template
+        v-slot:action="{ attrs }"
+      >
         <v-btn color="white" text v-bind="attrs" @click="isOffline = false">Close</v-btn>
       </template>
     </v-snackbar>
@@ -16,14 +18,12 @@
 </template>
 
 <script>
-import MainComponent from "./components/MainComponent";
 import TheAppBar from "./components/TheAppBar";
 import TheFooter from "./components/TheFooter";
 
 export default {
   name: "App",
   components: {
-    MainComponent,
     TheAppBar,
     TheFooter
   },
