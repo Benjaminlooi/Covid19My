@@ -1,24 +1,15 @@
-# covid-19
+# Covid19 Malaysia
+> News & Stats for coronavirus in Malaysia
+
+[Live demo](https://covid19my.netlify.app/)
 
 ## Project setup
-```
+> Install npm dependencies
+```shell
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
+> Compiles and hot-reloads for development
+```shell
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
