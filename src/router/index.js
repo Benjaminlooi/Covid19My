@@ -11,6 +11,16 @@ const routes = [
     name: "Home",
     component: Home
   },
+  {
+    path: "/covid-information",
+    name: "CovidInformation",
+    component: () =>
+      import(/* webpackChunkName: "chunk" */ "../views/CovidInformation.vue")
+  },
+  {
+    path: "*",
+    redirect: '/'
+  }
   // {
   //   path: "/about",
   //   name: "About",

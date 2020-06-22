@@ -9,7 +9,7 @@
         <v-card-text class="py-0 font-weight-medium">Stop corona virus</v-card-text>
 
         <v-card-actions class="pl-4 py-1">
-          <v-btn small dark color="deep-purple accent-4">Learn More</v-btn>
+          <v-btn small dark color="deep-purple accent-4" to="/covid-information">Learn More</v-btn>
         </v-card-actions>
       </v-col>
     </v-row>

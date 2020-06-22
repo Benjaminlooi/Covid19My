@@ -4,7 +4,7 @@
     <v-main>
       <router-view />
     </v-main>
-    <TheFooter class="mt-2" />
+    <TheFooter class="mt-2" v-if="$route.path == '/'" />
     <v-snackbar v-model="isOffline" color="error" timeout="-1" vertical multi-line>
       You are not connecting to an internet connection.
       <br />The latest updates will be available once an internet connection is detected.
