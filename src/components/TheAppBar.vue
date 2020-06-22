@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar absolute color="transparent" flat height="56" dark>
+  <v-app-bar absolute color="transparent" flat height="42" dark>
     <div class="d-flex align-center">
       Covid-19
       <sup>MY</sup>

@@ -15,7 +15,6 @@
         <p class="px-1 caption mb-0">Last update: {{updatedTime}}</p>
         <TheInformationCards :covidMyCases="covidMyCases" />
 
-
         <v-row class="justify-center mt-4">
           <v-col sm="6">
             <h3 class="px-1 mb-4">States Infection Rate</h3>
@@ -77,8 +76,8 @@ export default {
 
 <style lang="scss" scoped>
 .top-section {
-  padding-top: calc(12px + 16px);
-  padding-bottom: calc(24px + 12px + 16px);
+  padding-top: calc(12px + 24px + 24px);
+  padding-bottom: calc(24px + 12px + 24px);
 }
 
 #main-component {
