@@ -3,7 +3,7 @@
     <v-container fluid class="top-section purple-gradient-bg">
       <v-row class="white--text">
         <v-col class="text-center" style="z-index: 1">
-          <h1 class="display-2 font-weight-bold mb-3">Covid-19 in Malaysia</h1>
+          <h1 class="display-2 font-weight-bold">Covid-19 in Malaysia</h1>
         </v-col>
       </v-row>
     </v-container>
@@ -77,9 +77,8 @@ export default {
 
 <style lang="scss" scoped>
 .top-section {
-  margin-top: -56px;
-  padding-top: 56px;
-  padding-bottom: 50px;
+  padding-top: calc(12px + 16px);
+  padding-bottom: calc(24px + 12px + 16px);
 }
 
 #main-component {
