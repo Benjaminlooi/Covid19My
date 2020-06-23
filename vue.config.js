@@ -13,6 +13,9 @@ module.exports = {
     manifestOptions: {
       start_url: "https://covid19my.netlify.app/",
       display: "standalone"
+    },
+    workboxOptions: {
+      exclude: ['_redirects'],
     }
   }
 };
