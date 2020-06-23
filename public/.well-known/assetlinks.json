@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.bensanity.covid19my",
+    "sha256_cert_fingerprints": [
+      "31:43:E9:16:98:5C:ED:54:2D:F1:9B:25:3B:E4:35:C8:FF:2B:BF:75:D6:6E:30:FC:D2:31:24:3D:E6:9A:6E:32"
+    ]
+  }
+}]

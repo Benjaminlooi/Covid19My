@@ -15,7 +15,7 @@ module.exports = {
       display: "standalone"
     },
     workboxOptions: {
-      exclude: ['_redirects'],
+      exclude: ['_redirects', 'assetlinks.json'],
     }
   }
 };
