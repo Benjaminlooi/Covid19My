@@ -1,6 +1,6 @@
 <template>
   <v-row class="pa-2">
-    <v-col v-for="card in cards" :key="card.title" cols="6" sm="3" class="pa-2">
+    <v-col v-for="card in cards" :key="card.title" cols="6" sm="6" class="pa-2">
       <v-card :color="card.color" :style="card.style" class="rounded-xl" dark>
         <v-card-title class="subtitle-2 font-weight-bold">{{card.title}}</v-card-title>
 
