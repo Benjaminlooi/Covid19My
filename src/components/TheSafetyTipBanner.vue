@@ -4,7 +4,7 @@
       <v-col cols="5" class="py-0">
         <v-img src="../assets/images/doctor.png" contain width="100%" class="banner-img ml-3" style="bottom: -2px;"></v-img>
       </v-col>
-      <v-col cols="7" class="pa-2">
+      <v-col cols="7" class="pa-2 my-auto">
         <v-card-text class="py-0 font-weight-medium">Stay home to</v-card-text>
         <v-card-text class="py-0 font-weight-medium">Stop corona virus</v-card-text>
 
