@@ -9,10 +9,11 @@ module.exports = {
     msTileColor: '#fff',
     appleMobileWebAppCapable: 'no',
     appleMobileWebAppStatusBarStyle: 'default',
-    // assetsVersion: '2',
+    assetsVersion: '7.0.1',
     manifestOptions: {
       start_url: "https://covid19my.netlify.app/",
-      display: "standalone"
+      display: "standalone",
+      background_color: "#fff"
     },
     iconPaths: {
       favicon32: 'img/icons/favicon-32x32.png',
