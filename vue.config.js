@@ -6,7 +6,7 @@ module.exports = {
   pwa: {
     name: 'Covid19 Malaysia',
     themeColor: '#4DBA87',
-    msTileColor: '#000000',
+    msTileColor: '#fff',
     appleMobileWebAppCapable: 'no',
     appleMobileWebAppStatusBarStyle: 'default',
     // assetsVersion: '2',
