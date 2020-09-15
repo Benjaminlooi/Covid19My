@@ -13,7 +13,7 @@ module.exports = {
     manifestOptions: {
       start_url: "https://covid19my.netlify.app/",
       display: "standalone",
-      background_color: "#fff"
+      background_color: "#afafaf"
     },
     iconPaths: {
       favicon32: 'img/icons/favicon-32x32.png',
