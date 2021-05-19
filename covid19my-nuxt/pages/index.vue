@@ -9,24 +9,22 @@
     </v-container>
 
     <v-card class="rounded-t-xl" flat style="margin-top: -24px">
-      <v-container id="main-component">
-        <v-row>
-          <v-col sm="8" md="6" lg="5" class="mx-auto">
-            <TheSafetyTipBanner class="mt-2 mb-5" />
-            <h3 class="px-1">Transmission Update</h3>
-            <p class="px-1 caption mb-0">Last update: {{ updatedTime }}</p>
-            <TheInformationCards :covid-my-cases="covidMyCases" />
+      <v-container>
+        <div class="content-container">
+          <TheSafetyTipBanner class="mt-2 mb-5" />
+          <h3 class="px-1">Transmission Update</h3>
+          <p class="px-1 caption mb-0">Last update: {{ updatedTime }}</p>
+          <TheInformationCards :covid-my-cases="covidMyCases" />
 
-            <v-row class="justify-center mt-4">
-              <v-col sm="12">
-                <h3 class="px-1 mb-4">States Infection Rate</h3>
-                <v-card class="rounded-xl mapImage mx-1">
-                  <v-img :src="covidMyCases.malaysiaMapSrc"></v-img>
-                </v-card>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
+          <v-row class="justify-center mt-4">
+            <v-col sm="12">
+              <h3 class="px-1 mb-4">States Infection Rate</h3>
+              <v-card class="rounded-xl mapImage mx-1">
+                <v-img :src="covidMyCases.malaysiaMapSrc"></v-img>
+              </v-card>
+            </v-col>
+          </v-row>
+        </div>
       </v-container>
     </v-card>
   </div>
@@ -86,9 +84,10 @@ export default {
   padding-bottom: calc(24px + 12px + 24px);
 }
 
-/* #main-component {
-   max-width: 400px;
-} */
+.content-container {
+  max-width: 450px;
+  margin: 0 auto;
+}
 
 .mapImage {
   -webkit-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.3) !important;
