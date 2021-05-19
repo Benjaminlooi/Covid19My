@@ -1,93 +1,98 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+  <div>
+    <v-container fluid class="top-section purple-gradient-bg">
+      <v-row class="white--text">
+        <v-col class="text-center" style="z-index: 1">
+          <h1 class="display-2 font-weight-bold">Covid-19 in Malaysia</h1>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-card class="rounded-t-xl" flat style="margin-top: -24px">
+      <v-container id="main-component">
+        <v-row>
+          <v-col sm="8" md="6" lg="5" class="mx-auto">
+            <TheSafetyTipBanner class="mt-2 mb-5" />
+            <h3 class="px-1">Transmission Update</h3>
+            <p class="px-1 caption mb-0">Last update: {{ updatedTime }}</p>
+            <TheInformationCards :covid-my-cases="covidMyCases" />
+
+            <v-row class="justify-center mt-4">
+              <v-col sm="12">
+                <h3 class="px-1 mb-4">States Infection Rate</h3>
+                <v-card class="rounded-xl mapImage mx-1">
+                  <v-img :src="covidMyCases.malaysiaMapSrc"></v-img>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
+  </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+// import TheSparkline from "./TheSparkline";
+import API from '@/API'
+import moment from 'moment'
+import TheInformationCards from '../components/TheInformationCards'
+import TheSafetyTipBanner from '../components/TheSafetyTipBanner'
 
 export default {
   components: {
-    Logo,
-    VuetifyLogo,
+    TheSafetyTipBanner,
+    TheInformationCards,
+  },
+  data: () => ({
+    covidMyCases: {},
+  }),
+  computed: {
+    updatedTime() {
+      if (this.covidMyCases.updatedTime) {
+        const time = moment(this.covidMyCases.updatedTime).format(
+          'MMM D, YYYY h:mm a'
+        )
+        return time
+      }
+      return ''
+    },
+  },
+  async created() {
+    if (process.browser) {
+      if (localStorage.getItem('covidMyCases') !== null) {
+        this.covidMyCases = JSON.parse(localStorage.getItem('covidMyCases'))
+      }
+
+      if (navigator.onLine) {
+        this.covidMyCases = await API.getCovidMyCaseObFirestore()
+        this.saveCovidMyCasesToCache()
+      } else {
+        this.covidMyCases = JSON.parse(localStorage.getItem('covidMyCases'))
+      }
+    }
+  },
+  methods: {
+    saveCovidMyCasesToCache() {
+      localStorage.setItem('covidMyCases', JSON.stringify(this.covidMyCases))
+    },
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.top-section {
+  padding-top: calc(12px + 24px + 24px);
+  padding-bottom: calc(24px + 12px + 24px);
+}
+
+/* #main-component {
+   max-width: 400px;
+} */
+
+.mapImage {
+  -webkit-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.3) !important;
+  -moz-box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0px 5px 20px -2px rgba(0, 0, 0, 0.3) !important;
+}
+</style>

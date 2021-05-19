@@ -1,91 +1,64 @@
 <template>
-  <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
-    </v-app-bar>
+  <v-app>
+    <TheAppBar />
     <v-main>
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <TheFooter v-if="$route.path == '/'" class="mt-2" />
+    <v-snackbar
+      v-model="isOffline"
+      color="error"
+      timeout="-1"
+      vertical
+      multi-line
+    >
+      You are not connecting to an internet connection.
+      <br />The latest updates will be available once an internet connection is
+      detected.
+      <template #action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="isOffline = false"
+          >Close</v-btn
+        >
+      </template>
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
+import TheAppBar from '@/components/TheAppBar'
+import TheFooter from '@/components/TheFooter'
+
 export default {
-  data() {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js',
+  name: 'App',
+  components: {
+    TheAppBar,
+    TheFooter,
+  },
+  data: () => ({
+    isOffline: null,
+  }),
+  created() {
+    if (process.browser) {
+      if (navigator.onLine) {
+        this.isOffline = false
+      } else {
+        this.isOffline = true
+      }
     }
   },
 }
 </script>
+
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+.purple-gradient-bg {
+  background: rgb(108, 60, 228) !important;
+  background: linear-gradient(
+    120deg,
+    rgba(108, 60, 228, 1) 0%,
+    rgba(63, 26, 167, 1) 50%,
+    rgba(146, 53, 170, 1) 100%
+  ) !important;
+}
+</style>
