@@ -1,12 +1,17 @@
-const express = require('express')
+const express = require("express");
 const apiRouter = express.Router();
 
 const {
-  outbreakMyScrapper
-} = require('../controllers/scrapperController')
+  outbreakMyScrapper,
+  decoder,
+} = require("../controllers/scrapperController");
 
-apiRouter.get('/outbreak-scrapper', async (req, res) => {
-  res.send(await outbreakMyScrapper(req, res))
-})
+apiRouter.get("/outbreak-scrapper", async (req, res) => {
+  res.send(await outbreakMyScrapper(req, res));
+});
 
-module.exports = apiRouter
+apiRouter.get("/decoder", async (req, res) => {
+  res.send(await decoder(req, res));
+});
+
+module.exports = apiRouter;

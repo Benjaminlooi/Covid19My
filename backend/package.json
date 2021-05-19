@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app",
+    "dev": "nodemon app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,5 +17,8 @@
   },
   "engines": {
     "node": "12.x"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }
