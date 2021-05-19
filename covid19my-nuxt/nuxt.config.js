@@ -4,15 +4,20 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - covid19my-nuxt',
-    title: 'covid19my-nuxt',
+    titleTemplate: '%s - Covid-19 in Malaysia | Live Updates',
+    title: 'Covid-19 in Malaysia | Live Updates',
     htmlAttrs: {
       lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Find out the latest updates and essential information about the current outbreak in Malaysia, COVID-19 | News & Stats for coronavirus in Malaysia',
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
