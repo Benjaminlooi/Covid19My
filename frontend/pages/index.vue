@@ -16,7 +16,7 @@
           <p class="px-1 caption mb-0">Last update: {{ updatedTime }}</p>
           <TheInformationCards :covid-my-cases="covidMyCases" />
 
-          <NewCasesGraph />
+          <CasesChart class="my-6" :covid-my-cases="covidMyCases" />
 
           <v-row class="justify-center mt-4">
             <v-col sm="12">
@@ -38,13 +38,13 @@ import API from '@/API'
 import moment from 'moment'
 import TheInformationCards from '../components/TheInformationCards'
 import TheSafetyTipBanner from '../components/TheSafetyTipBanner'
-import NewCasesGraph from '../components/NewCasesGraph.vue'
+import CasesChart from '../components/CasesChart.vue'
 
 export default {
   components: {
     TheSafetyTipBanner,
     TheInformationCards,
-    NewCasesGraph,
+    CasesChart,
   },
   data: () => ({
     covidMyCases: {},

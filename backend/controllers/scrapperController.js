@@ -40,17 +40,19 @@ const outbreakMyScrapper = async (req, res) => {
   const page = await browser.newPage();
   await page.goto("https://www.outbreak.my/");
 
-  await page.waitFor(() => {
+  await page.waitForFunction(() => {
     const count = document.querySelector("#cases-my-confirmed");
     return count && count.innerText !== "-";
   });
+
   // await page.waitFor(async() => {
   //   const count = document.querySelector('#cases-my-confirmed');
   //   let firstCount = count.innerText;
   //   let secondCount = count.innerText;
   //   return firstCount == secondCount;
   // });
-  await page.waitFor(5000);
+
+  await page.waitForTimeout(5000);
 
   let data = await page.evaluate(() => {
     const dataConfirmed = document.querySelector(
@@ -75,8 +77,6 @@ const outbreakMyScrapper = async (req, res) => {
       "#cases-my-death-changes"
     ).textContent;
 
-    // const malaysiaMapImgSrc = document.querySelector('#cases-my-death').textContent;
-
     return {
       dataConfirmed,
       dataConfirmedChanges,
@@ -89,31 +89,48 @@ const outbreakMyScrapper = async (req, res) => {
     };
   });
   data.updatedTime = new Date();
-  // console.log("data", data)
 
-  // page.$x('/html/body/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/div[2]/div/div[2]/div[1]/div/div/a/img')
   const [elementHandle] = await page.$x(
     "/html/body/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/div[2]/div/div[2]/div[1]/div/div/a/img"
   );
   const propertyHandle = await elementHandle.getProperty("src");
   const propertyValue = await propertyHandle.jsonValue();
   data.malaysiaMapSrc = propertyValue;
-  console.log("outbreakMyScrapper -> data", data);
+
+  console.log("Starting new Cases regex...");
+  const pageHtml = await page.content();
+
+  var matches = pageHtml.match(
+    /\[0x0,0x3,0x1,0x0,0x0,0x3,0x0,0x1,0x0,0x0,0x0,0x1,0x1,0x2,0x2,0x1,0x1,0x1,0x1,0x0,0x0,0x1(.*?)\]/
+  );
+
+  if (matches) {
+    const newCasesMatch = matches[0];
+    const newCasesArray = newCasesMatch.slice(1, -1).split(",");
+    data.newCases = newCasesArray;
+    console.log(newCasesArray);
+    console.log("Scrapped new cases...");
+  } else {
+    console.log("No matches found for new cases...");
+  }
 
   await browser.close();
 
-  let colRef = db.collection("outbreakmy");
+  console.log("outbreakMyScrapper -> data", data);
 
-  colRef
-    .add(data)
-    .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id);
-    })
-    .catch(function (error) {
-      console.error("Error adding document: ", error);
-    });
+  if (data) {
+    let colRef = db.collection("outbreakmy");
 
-  // res.set('Cache-Control', 'public, max-age=3000, s-maxage=6000');
+    colRef
+      .add(data)
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+      });
+  }
+
   res.status(200).send(data);
   console.log("outbreakMyScrapper ended...");
 };
@@ -166,4 +183,8 @@ const decoder = async (req, res) => {
   res.status(200).send(decoded);
 };
 
-module.exports = { getCovid19MyCases, outbreakMyScrapper, decoder };
+module.exports = {
+  getCovid19MyCases,
+  outbreakMyScrapper,
+  decoder,
+};
