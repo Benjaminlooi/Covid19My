@@ -15,3 +15,7 @@ heroku git:remote -a covid19my-api
 ```shell
 git push heroku master
 ```
+
+```shell
+git push heroku `git subtree split --prefix backend master`:master --force
+```
