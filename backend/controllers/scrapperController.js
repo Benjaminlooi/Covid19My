@@ -1,27 +1,29 @@
-const puppeteer = require('puppeteer');
-const { db } = require('../plugins/firebase')
+const puppeteer = require("puppeteer");
+const { db } = require("../plugins/firebase");
 
 const getCovid19MyCases = async () => {
   const browser = await puppeteer.launch({
     headless: true,
   });
   const page = await browser.newPage();
-  await page.goto('https://newslab.malaysiakini.com/covid-19/en');
+  await page.goto("https://newslab.malaysiakini.com/covid-19/en");
 
-  await page.waitForSelector('.legend-total');
+  await page.waitForSelector(".legend-total");
   const data = await page.evaluate(() => {
-    const dataConfirmed = document.querySelector('.legend-total').textContent;
-    const dataInTreatment = document.querySelector('.legend-treatment').textContent;
-    const dataDischarged = document.querySelector('.legend-discharged').textContent;
-    const dataDeaths = document.querySelector('.legend-dead').textContent;
+    const dataConfirmed = document.querySelector(".legend-total").textContent;
+    const dataInTreatment =
+      document.querySelector(".legend-treatment").textContent;
+    const dataDischarged =
+      document.querySelector(".legend-discharged").textContent;
+    const dataDeaths = document.querySelector(".legend-dead").textContent;
 
     return {
       dataConfirmed,
       dataInTreatment,
       dataDischarged,
-      dataDeaths
-    }
-  })
+      dataDeaths,
+    };
+  });
   // console.log("data", data)
 
   await browser.close();
@@ -29,39 +31,51 @@ const getCovid19MyCases = async () => {
   return data;
 };
 
-
 const outbreakMyScrapper = async (req, res) => {
-  console.log('Running outbreakMyScrapper...');
+  console.log("Running outbreakMyScrapper...");
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox']
+    args: ["--no-sandbox"],
   });
   const page = await browser.newPage();
-  await page.goto('https://www.outbreak.my/');
+  await page.goto("https://www.outbreak.my/");
 
-  await page.waitFor(() => {
-    const count = document.querySelector('#cases-my-confirmed');
-    return count && count.innerText !== '-';
+  await page.waitForFunction(() => {
+    const count = document.querySelector("#cases-my-confirmed");
+    return count && count.innerText !== "-";
   });
+
   // await page.waitFor(async() => {
   //   const count = document.querySelector('#cases-my-confirmed');
   //   let firstCount = count.innerText;
   //   let secondCount = count.innerText;
   //   return firstCount == secondCount;
   // });
-  await page.waitFor(5000)
+
+  await page.waitForTimeout(5000);
 
   let data = await page.evaluate(() => {
-    const dataConfirmed = document.querySelector('#cases-my-confirmed').textContent;
-    const dataConfirmedChanges = document.querySelector('#cases-my-confirmed-changes').textContent;
-    const dataInTreatment = document.querySelector('#cases-my-active').textContent;
-    const dataInTreatmentChanges = document.querySelector('#cases-my-active-changes').textContent;
-    const dataRecovered = document.querySelector('#cases-my-recovered').textContent;
-    const dataRecoveredChanges = document.querySelector('#cases-my-recovered-changes').textContent;
-    const dataDeaths = document.querySelector('#cases-my-death').textContent;
-    const dataDeathsChanges = document.querySelector('#cases-my-death-changes').textContent;
-
-    // const malaysiaMapImgSrc = document.querySelector('#cases-my-death').textContent;
+    const dataConfirmed = document.querySelector(
+      "#cases-my-confirmed"
+    ).textContent;
+    const dataConfirmedChanges = document.querySelector(
+      "#cases-my-confirmed-changes"
+    ).textContent;
+    const dataInTreatment =
+      document.querySelector("#cases-my-active").textContent;
+    const dataInTreatmentChanges = document.querySelector(
+      "#cases-my-active-changes"
+    ).textContent;
+    const dataRecovered = document.querySelector(
+      "#cases-my-recovered"
+    ).textContent;
+    const dataRecoveredChanges = document.querySelector(
+      "#cases-my-recovered-changes"
+    ).textContent;
+    const dataDeaths = document.querySelector("#cases-my-death").textContent;
+    const dataDeathsChanges = document.querySelector(
+      "#cases-my-death-changes"
+    ).textContent;
 
     return {
       dataConfirmed,
@@ -71,35 +85,106 @@ const outbreakMyScrapper = async (req, res) => {
       dataRecovered,
       dataRecoveredChanges,
       dataDeaths,
-      dataDeathsChanges
-    }
-  })
+      dataDeathsChanges,
+    };
+  });
   data.updatedTime = new Date();
-  // console.log("data", data)
 
-  // page.$x('/html/body/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/div[2]/div/div[2]/div[1]/div/div/a/img')
-  const [elementHandle] = await page.$x('/html/body/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/div[2]/div/div[2]/div[1]/div/div/a/img');
-  const propertyHandle = await elementHandle.getProperty('src');
+  const [elementHandle] = await page.$x(
+    "/html/body/div[1]/div[1]/div[3]/div/div[4]/div[1]/div/div[2]/div/div[2]/div[1]/div/div/a/img"
+  );
+  const propertyHandle = await elementHandle.getProperty("src");
   const propertyValue = await propertyHandle.jsonValue();
   data.malaysiaMapSrc = propertyValue;
-  console.log("outbreakMyScrapper -> data", data)
+
+  console.log("Starting new Cases regex...");
+  const pageHtml = await page.content();
+
+  var matches = pageHtml.match(
+    /\[0x0,0x3,0x1,0x0,0x0,0x3,0x0,0x1,0x0,0x0,0x0,0x1,0x1,0x2,0x2,0x1,0x1,0x1,0x1,0x0,0x0,0x1(.*?)\]/
+  );
+
+  if (matches) {
+    const newCasesMatch = matches[0];
+    const newCasesArray = newCasesMatch.slice(1, -1).split(",");
+    data.newCases = newCasesArray;
+    console.log(newCasesArray);
+    console.log("Scrapped new cases...");
+  } else {
+    console.log("No matches found for new cases...");
+  }
 
   await browser.close();
 
-  let colRef = db.collection('outbreakmy');
+  console.log("outbreakMyScrapper -> data", data);
 
-  colRef.add(data)
-    .then(docRef => {
-      console.log("Document written with ID: ", docRef.id)
-    })
-    .catch(function (error) {
-      console.error("Error adding document: ", error);
-    });
+  if (data) {
+    let colRef = db.collection("outbreakmy");
 
-  // res.set('Cache-Control', 'public, max-age=3000, s-maxage=6000');
-  res.status(200).send(data)
-  console.log('outbreakMyScrapper ended...');
-}
+    colRef
+      .add(data)
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function (error) {
+        console.error("Error adding document: ", error);
+      });
+  }
 
-module.exports = { getCovid19MyCases, outbreakMyScrapper }
+  res.status(200).send(data);
+  console.log("outbreakMyScrapper ended...");
+};
 
+const decoder = async (req, res) => {
+  const codeArr = [
+    0x0, 0x3, 0x1, 0x0, 0x0, 0x3, 0x0, 0x1, 0x0, 0x0, 0x0, 0x1, 0x1, 0x2, 0x2,
+    0x1, 0x1, 0x1, 0x1, 0x0, 0x0, 0x1, 0x0, 0x3, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+    0x0, 0x0, 0x0, 0x0, 0x0, 0x2, 0x1, 0x4, 0x0, 0x4, 0x3, 0xe, 0x5, 0x1c, 0xa,
+    0x6, 0x12, 0xc, 0x14, 0x9, 0x27, 0x29, 0xbe, 0x7d, 0x78, 0x75, 0x6e, 0x82,
+    0x99, 0x7b, 0xd4, 0x6a, 0xac, 0xeb, 0x82, 0x9f, 0x96, 0x9c, 0x8c, 0x8e,
+    0xd0, 0xd9, 0x96, 0xb3, 0x83, 0xaa, 0x9c, 0x6d, 0x76, 0xb8, 0x99, 0x86,
+    0xaa, 0x55, 0x6e, 0x45, 0x36, 0x54, 0x24, 0x39, 0x32, 0x47, 0x58, 0x33,
+    0x26, 0x28, 0x1f, 0x5e, 0x39, 0x45, 0x69, 0x7a, 0x37, 0x1e, 0x2d, 0x27,
+    0x44, 0x36, 0x43, 0x46, 0x10, 0x25, 0x28, 0x24, 0x11, 0x16, 0x2f, 0x25,
+    0x1f, 0x32, 0x4e, 0x30, 0x3c, 0xac, 0xbb, 0xf, 0xa, 0x67, 0x1e, 0x39, 0x26,
+    0x14, 0x5d, 0x115, 0x13, 0x25, 0x13, 0x7, 0x7, 0x2, 0x1f, 0x21, 0x2b, 0x8,
+    0x29, 0xb, 0xa, 0xe, 0x6, 0x15, 0x10, 0xf, 0x3, 0x6, 0x4, 0x6, 0xa, 0x12,
+    0x3, 0x2, 0x1, 0x3, 0x5, 0xa, 0x5, 0x5, 0x6, 0x3, 0x6, 0xd, 0x8, 0xe, 0x7,
+    0x4, 0x5, 0x3, 0x12, 0x9, 0xf, 0x15, 0xf, 0x10, 0x9, 0x15, 0x17, 0xd, 0x7,
+    0x27, 0xd, 0x8, 0xc, 0x9, 0xe, 0x2, 0x1, 0x15, 0xf, 0x19, 0x7, 0xd, 0xb,
+    0x9, 0xb, 0xf, 0x14, 0x1a, 0x19, 0xc, 0x7, 0x10, 0x5, 0x9, 0x8, 0xa, 0x7,
+    0xb, 0x6, 0x5, 0xa, 0xb, 0x11, 0x6, 0xe, 0x6, 0xe, 0xb, 0x6, 0x6, 0x3e,
+    0x64, 0x18, 0x2d, 0xb6, 0x3a, 0x2f, 0x1f, 0x17, 0x3e, 0x15, 0x5f, 0x14,
+    0x34, 0x39, 0x52, 0x93, 0x47, 0x6f, 0x52, 0x96, 0x73, 0x65, 0x59, 0x104,
+    0x11f, 0x13d, 0x125, 0x1b0, 0x2b3, 0x1e9, 0x177, 0x162, 0x176, 0x231, 0x233,
+    0x294, 0x294, 0x24d, 0x275, 0x365, 0x367, 0x361, 0x35e, 0x2dc, 0x34f, 0x2c6,
+    0x4cc, 0x337, 0x4d8, 0x343, 0x321, 0x289, 0x31f, 0x293, 0x3bd, 0x342, 0x41e,
+    0x408, 0x3f1, 0x6db, 0x490, 0x354, 0x3cc, 0x365, 0x336, 0x397, 0x518, 0x45a,
+    0x4b8, 0x44f, 0x4ba, 0x294, 0x50a, 0x3be, 0x411, 0x448, 0x75c, 0x88c, 0x3ca,
+    0x3a7, 0x455, 0x523, 0x51d, 0x4bc, 0x5c0, 0x353, 0x433, 0x475, 0x463, 0x537,
+    0x640, 0x3f4, 0x3bf, 0x8ba, 0x712, 0x791, 0x4cd, 0x55b, 0x6ec, 0x50f, 0x4c4,
+    0x693, 0x481, 0x53c, 0x7e2, 0x80e, 0x544, 0x62d, 0x4df, 0x91f, 0x4ac, 0x63a,
+    0x785, 0x74e, 0x9dd, 0x814, 0x8f7, 0x6a8, 0x6cd, 0x7eb, 0xa21, 0xbd3, 0xa53,
+    0x993, 0x981, 0x8b8, 0xced, 0xba9, 0xd09, 0xc8b, 0xfbd, 0xd0b, 0xcea, 0xe2f,
+    0xfa8, 0xc62, 0xe2f, 0x10b3, 0xd12, 0xbe8, 0xe01, 0xe60, 0xffe, 0x165d,
+    0x1660, 0x14b2, 0x1076, 0xd7f, 0x10bc, 0x11db, 0xd3f, 0xf07, 0xe93, 0xc1c,
+    0xacc, 0xcd8, 0xd38, 0xcf6, 0xdab, 0x9a0, 0x880, 0xaa0, 0xbb6, 0xa98, 0xb78,
+    0x99d, 0xce1, 0x890, 0x9a4, 0xdd9, 0x784, 0x8cd, 0x93c, 0x985, 0x724, 0x613,
+    0x6d1, 0x80f, 0x86a, 0x690, 0x693, 0x5f9, 0x500, 0x5a8, 0x66a, 0x627, 0x5be,
+    0x54a, 0x4b8, 0x427, 0x4c3, 0x4c7, 0x628, 0x687, 0x52f, 0x45c, 0x568, 0x4f4,
+    0x550, 0x4fb, 0x4af, 0x516, 0x3ad, 0x46d, 0x5ca, 0x49a, 0x50e, 0x666, 0x545,
+    0x42e, 0x514, 0x473, 0x505, 0x73e, 0x5e6, 0x6cb, 0x525, 0x6e7, 0x761, 0x864,
+    0x9f7, 0x91b, 0x893, 0x81e, 0x925, 0x924, 0xb3b, 0xb1f, 0xa9d, 0xa82, 0xad8,
+    0xaad, 0xc46, 0xd04, 0xecc, 0xb41, 0xd5a, 0x9c4, 0xc30, 0xea0, 0xddf,
+    0x1192, 0x11a7, 0xe95, 0xedf, 0xf85, 0x129d, 0x12f7, 0x1011, 0x102c, 0xec4,
+    0x115e, 0x1301, 0x17bb,
+  ];
+  const decoded = codeArr.map((code) => Number(code));
+  res.status(200).send(decoded);
+};
+
+module.exports = {
+  getCovid19MyCases,
+  outbreakMyScrapper,
+  decoder,
+};
