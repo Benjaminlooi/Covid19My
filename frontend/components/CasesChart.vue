@@ -21,9 +21,18 @@ export default {
     chartData: {
       datasets: [
         {
+          type: 'bar',
           label: 'New Cases',
           backgroundColor: 'rgb(255, 99, 132, 0.3)',
-          borderColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132, 0.7)',
+          borderWidth: 1,
+          data: [],
+        },
+        {
+          type: 'line',
+          label: 'Recoveries',
+          backgroundColor: 'rgb(4, 212, 0, 0.3)',
+          borderColor: 'rgb(4, 212, 0, 0.7)',
           borderWidth: 1,
           data: [],
         },
@@ -60,6 +69,7 @@ export default {
   },
   mounted() {
     this.chartData.datasets[0].data = this.covidMyCases.newCases
+    this.chartData.datasets[1].data = this.covidMyCases.recoveries
   },
 }
 </script>

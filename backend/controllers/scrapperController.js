@@ -100,18 +100,32 @@ const outbreakMyScrapper = async (req, res) => {
   console.log("Starting new Cases regex...");
   const pageHtml = await page.content();
 
-  var matches = pageHtml.match(
+  const newCasesArrMatches = pageHtml.match(
     /\[0x0,0x3,0x1,0x0,0x0,0x3,0x0,0x1,0x0,0x0,0x0,0x1,0x1,0x2,0x2,0x1,0x1,0x1,0x1,0x0,0x0,0x1(.*?)\]/
   );
 
-  if (matches) {
-    const newCasesMatch = matches[0];
+  if (newCasesArrMatches) {
+    const newCasesMatch = newCasesArrMatches[0];
     const newCasesArray = newCasesMatch.slice(1, -1).split(",");
     data.newCases = newCasesArray;
-    console.log(newCasesArray);
     console.log("Scrapped new cases...");
   } else {
     console.log("No matches found for new cases...");
+  }
+
+  console.log("Starting recoveries regex...");
+
+  const recoveriesArrMatches = pageHtml.match(
+    /\[0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x0,0x1,0x1,0x0,0x0,0x0,0x0,0x4,0x0,0x1,0x1,0x2,0x4,0x2,0x0(.*?)\]/
+  );
+
+  if (recoveriesArrMatches) {
+    const recoveriesMatch = recoveriesArrMatches[0];
+    const recoveriesArray = recoveriesMatch.slice(1, -1).split(",");
+    data.recoveries = recoveriesArray;
+    console.log("Scrapped recoveries...");
+  } else {
+    console.log("No matches found for recoveries...");
   }
 
   await browser.close();
