@@ -6,7 +6,7 @@
           card.title
         }}</v-card-title>
 
-        <v-card-subtitle class="display-1 white--text pb-2">{{
+        <v-card-subtitle class="text-h5 text-sm-h4 white--text pb-2">{{
           card.data
         }}</v-card-subtitle>
         <v-divider
