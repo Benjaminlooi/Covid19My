@@ -1,9 +1,6 @@
 <template>
   <client-only>
-    <line-chart
-      :data="{ ...chartData, labels }"
-      :options="options"
-    ></line-chart>
+    <bar-chart :data="{ ...chartData, labels }" :options="options"></bar-chart>
   </client-only>
 </template>
 
@@ -29,7 +26,7 @@ export default {
           data: [],
         },
         {
-          type: 'line',
+          type: 'bar',
           label: 'Recoveries',
           backgroundColor: 'rgb(4, 212, 0, 0.3)',
           borderColor: 'rgb(4, 212, 0, 0.7)',
@@ -39,23 +36,16 @@ export default {
       ],
     },
     options: {
-      plugins: {
-        zoom: {
-          zoom: {
-            wheel: {
-              enabled: true,
-            },
-            pinch: {
-              enabled: true,
-            },
-            mode: 'xy',
+      scales: {
+        xAxes: [
+          {
+            stacked: true,
           },
-        },
+        ],
       },
-      elements: {
-        point: {
-          radius: 0,
-        },
+      tooltips: {
+        mode: 'index',
+        intersect: false,
       },
     },
   }),
