@@ -82,13 +82,16 @@ export default {
   }),
   computed: {
     labels() {
-      const startDate = dayjs('2021-01-23')
-      const generatedDates = this.covidMyCases.newCases.map((n, index) =>
-        startDate.add(index, 'day').format('DD/MM')
-      )
-      return this.chartFilter
-        ? generatedDates.slice(this.chartFilter)
-        : generatedDates
+      if (process.browser) {
+        const startDate = dayjs('2021-01-23')
+        const generatedDates = this.covidMyCases.newCases.map((n, index) =>
+          startDate.add(index, 'day').format('DD/MM')
+        )
+        return this.chartFilter
+          ? generatedDates.slice(this.chartFilter)
+          : generatedDates
+      }
+      return null
     },
   },
   mounted() {
