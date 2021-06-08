@@ -11,21 +11,22 @@
     <v-card class="rounded-t-xl" flat style="margin-top: -24px">
       <v-container>
         <div class="content-container">
-          <TheSafetyTipBanner class="mt-2 mb-5" />
-          <h3 class="px-1">Transmission Update</h3>
-          <p class="px-1 caption mb-0">Last update: {{ updatedTime }}</p>
-          <TheInformationCards :covid-my-cases="covidMyCases" />
+          <client-only>
+            <TheSafetyTipBanner class="mt-2 mb-5" />
+            <h3 class="px-1">Transmission Update</h3>
+            <p class="px-1 caption mb-0">Last update: {{ updatedTime }}</p>
+            <TheInformationCards :covid-my-cases="covidMyCases" />
 
-          <CasesChart class="my-6" :covid-my-cases="covidMyCases" />
+            <CasesChart class="my-6" :covid-my-cases="covidMyCases" />
 
-          <v-row class="justify-center mt-4">
-            <v-col sm="12">
-              <h3 class="px-1 mb-4">States Infection Rate</h3>
-              <v-card class="rounded-xl mapImage mx-1">
-                <v-img :src="covidMyCases.malaysiaMapSrc"></v-img>
-              </v-card>
-            </v-col>
-          </v-row>
+            <v-row class="justify-center mt-4">
+              <v-col sm="12">
+                <h3 class="px-1 mb-4">States Infection Rate</h3>
+                <v-card class="rounded-xl mapImage mx-1">
+                  <v-img :src="covidMyCases.malaysiaMapSrc"></v-img>
+                </v-card>
+              </v-col> </v-row
+          ></client-only>
         </div>
       </v-container>
     </v-card>
