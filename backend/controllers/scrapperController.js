@@ -136,7 +136,8 @@ const outbreakMyScrapper = async (req, res) => {
     let colRef = db.collection("outbreakmy");
 
     colRef
-      .add(data)
+      .doc("Latest")
+      .set(data)
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
       })
