@@ -10,7 +10,7 @@
 
     <v-card class="rounded-t-xl" flat style="margin-top: -24px">
       <v-container>
-        <div class="content-container">
+        <div v-if="covidMyCases.updatedTime" class="content-container">
           <client-only>
             <TheSafetyTipBanner class="mt-2 mb-5" />
             <h3 class="px-1">Transmission Update</h3>
@@ -69,6 +69,7 @@ export default {
 
       if (navigator.onLine) {
         this.covidMyCases = await API.getCovidMyCaseObFirestore()
+        console.log(this.covidMyCases)
         this.saveCovidMyCasesToCache()
       } else {
         this.covidMyCases = JSON.parse(localStorage.getItem('covidMyCases'))

@@ -22,10 +22,19 @@ git push heroku master
 git push heroku `git subtree split --prefix backend master`:master --force
 ```
 
-> Update (Oct 2021), previous command seems outdated and git subtree is built into git no. Use this instead
+> Update (Oct 2021), if the previous command doesn't work on windows, u have to do this
 
 ```shell
-git subtree push --prefix backend heroku master
+git push heroku `git subtree split --prefix pythonapp master`:master --force
+You can just run the nested bit first:
+
+git subtree split --prefix pythonapp master
+This will (after a lot of numbers) return a token, e.g.
+
+ddd50c242380a3a1acd1912ac4798f7e8af506ac
+Use this in the containing command, e.g:
+
+git push heroku ddd50c242380a3a1acd1912ac4798f7e8af506ac:master --force
 ```
 
 > If things does not work, just Force it. - Benjamin Looi, 2021
